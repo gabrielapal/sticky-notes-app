@@ -1,36 +1,42 @@
-import React from "react";
+import React, { Component } from "react";
+import Header from "./Header";
+import NotesList from "./NotesList";
 
-const App = () => (
-  <div>
-    <header>
-      <h1 className="app-header__title">Super Sticky Notes</h1>
-      <aside className="app-header__controls">
-        <button className="add-new">+ New Note</button>
-        <input
-          className="search"
-          type="text"
-          placeholder="Type here to search..."
-        />
-      </aside>
-    </header>
-    <ul className="notes-list">
-      <li className="note">
-        <input className="note__title" type="text" placeholder="Title" />
-        <textarea className="note__description" placeholder="Description..." />
-        <span className="note__delete">X</span>
-      </li>
-      <li className="note">
-        <input className="note__title" type="text" placeholder="Title" />
-        <textarea className="note__description" placeholder="Description..." />
-        <span className="note__delete">X</span>
-      </li>
-      <li className="note">
-        <input className="note__title" type="text" placeholder="Title" />
-        <textarea className="note__description" placeholder="Description..." />
-        <span className="note__delete">X</span>
-      </li>
-    </ul>
-  </div>
-);
+class App extends Component {
+  state = {
+    notes: [
+      {
+        id: Date.now(),
+        title: "",
+        description: "",
+        doesMatchSearch: true
+      }
+    ],
+    searchText: ""
+  };
+
+  addNote = () => {
+    // create a new note
+    const newNote = {
+      id: Date.now(),
+      title: "",
+      description: "",
+      doesMatchSearch: true
+    };
+
+    // add the new note to existing notes array in State
+    const newNotes = [newNote, ...this.state.notes];
+    this.setState({ notes: [newNote, ...this.state.notes] });
+  };
+
+  render() {
+    return (
+      <div>
+        <Header addNote={this.addNote} searchText={this.state.searchText} />
+        <NotesList notes={this.state.notes} />
+      </div>
+    );
+  }
+}
 
 export default App;
